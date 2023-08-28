@@ -4,57 +4,51 @@ if (token === null) {
   window.location.href = "../html/login.html";
 }
 
-let kolegijiLista = []
 
-// Dohvacamo podatke prije loadanja komponenti
-$(document).ready(() => {
-  let urlGetAllCurriculums = "https://www.fulek.com/data/api/supit/curriculum-list/hr";
-  
-  let xmlhttpGetAllSubjects = new XMLHttpRequest();
-  // Dohvacanje kolegija   
-  xmlhttpGetAllSubjects.open("GET", urlGetAllCurriculums, true);
-  xmlhttpGetAllSubjects.setRequestHeader("Authorization", "Bearer " + token);
-  xmlhttpGetAllSubjects.send();
 
-  // Parsiranje kolegija u listu
-  xmlhttpGetAllSubjects.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      let allSubjects = JSON.parse(this.responseText);
-      kolegijiLista = createArrayFromResponse(allSubjects.data);
+let urlGetAllCurriculums =
+  "https://www.fulek.com/data/api/supit/curriculum-list/hr";
+let xmlhttpGetAllSubjects = new XMLHttpRequest();
+xmlhttpGetAllSubjects.open("GET", urlGetAllCurriculums, true);
+xmlhttpGetAllSubjects.setRequestHeader("Authorization", "Bearer " + token);
+xmlhttpGetAllSubjects.send();
 
-      $("#kolegiji").autocomplete({
-        delay: 300,
-        source: kolegijiLista,
-        minLength: 1,
-        focus: function (event, ui) {
-          event.preventDefault();
-          $("#kolegiji").val(ui.item.kolegij);
-        },
-        select: function (event, ui) {
-          event.preventDefault();
-          $("#kolegiji").val(ui.item.kolegij);
-        },
-      });
-    }
-  };
-})
+xmlhttpGetAllSubjects.onreadystatechange = function () {
+  if (this.readyState == 4 && this.status == 200) {
+    let allSubjects = JSON.parse(this.responseText);
+    let myArray = createArrayFromResponse(allSubjects.data);
 
-$("#search_bar").on("autocompleteselect", function (e, ui) {
-  let id = findID(allSubjects.data, ui.value);
-  let urlGetCurriculum = `https://www.fulek.com/data/api/supit/get-curriculum/${id}`;
-  let xmlhttpGetSubject = new XMLHttpRequest();
-  xmlhttpGetSubject.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      let subject = JSON.parse(this.responseText);
-      dodajRedak(subject);
-      sumEctsAndHours();
-    }
-  };
+    $("#search_bar").autocomplete({
+      source: myArray,
+      minLength: 1,
+      focus: function (event, ui) {
+        event.preventDefault();
+        $("#search_bar").val(ui.item.kolegij);
+      },
+      select: function (event, ui) {
+        event.preventDefault();
+        $("#search_bar").val(ui.item.kolegij);
+      },
+    });
 
-  xmlhttpGetSubject.open("GET", urlGetCurriculum, true);
-  xmlhttpGetSubject.setRequestHeader("Authorization", "Bearer " + token);
-  xmlhttpGetSubject.send();
-});
+    $("#search_bar").on("autocompleteselect", function (e, ui) {
+      let id = findID(allSubjects.data, ui.value);
+      let urlGetCurriculum = `https://www.fulek.com/data/api/supit/get-curriculum/${id}`;
+      let xmlhttpGetSubject = new XMLHttpRequest();
+      xmlhttpGetSubject.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+          let subject = JSON.parse(this.responseText);
+          dodajRedak(subject);
+          sumEctsAndHours();
+        }
+      };
+
+      xmlhttpGetSubject.open("GET", urlGetCurriculum, true);
+      xmlhttpGetSubject.setRequestHeader("Authorization", "Bearer " + token);
+      xmlhttpGetSubject.send();
+    });
+  }
+};
 
 function createArrayFromResponse(response) {
   let arr = [];
