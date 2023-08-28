@@ -1,0 +1,126 @@
+#main{
+    margin-bottom: -200px;
+}
+#main h1{
+    
+    font-family:"Stolzl Bold", Arial, Sans-serif;
+    color:rgb(27, 27, 27);
+    border-bottom: 2px solid rgb(255, 205, 39);
+    text-align: center;
+    padding-bottom: 15px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+h2{
+    font-family: "Arial", sans-serif, Sans-serif;
+    color:rgb(137, 39, 78);
+    text-align: center;
+    margin-top: 70px;
+    margin-bottom: 20px;
+    font-size: 25px;
+}
+#head{
+    background-color:black;
+    width: 100%;
+    height: 70px;
+    position: fixed;
+    overflow: hidden;
+    z-index: 2;
+}
+#nav-bar{
+    min-width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2%;
+    list-style-type: none;
+    margin: 0;
+    position:static;
+    align-self: flex-end;
+    overflow: hidden;
+}
+a{
+    font-family: "Stolzl Bold", sans-serif, Sans-serif;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;   
+}
+i{
+    color: orange;
+    padding-right: 2px; 
+}
+#title{
+    width: 100%;
+    height: 100px;
+    padding-top: 80px;
+    background-color: rgb(255, 255, 255);
+}
+.cards{
+    display: flex;
+    gap: 10px;
+    margin-right: 300px;
+    margin-left: 300px;
+    margin-top: 70px;
+    flex-wrap: wrap;
+} 
+.card{
+border: 0px solid;
+padding: 10px;
+text-align: justify;
+border-radius: 5px;
+padding-bottom: 80px;
+background-color: rgb(255, 255, 255);
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+width:400px;
+transition: transform .2s
+}
+.card:hover{
+    transform: scale(1.1);
+    z-index: 0;
+}
+.partner_cards{
+
+    display: flex;
+    gap: 50px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    margin-bottom: 150px;
+    
+}
+.partner_card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: bottom;
+    width: 350px;
+    height: 150px;
+    transition: transform .2s
+}
+.partner_card:hover{
+    transform: scale(1.1);
+}
+.partner_card h4{
+  text-align: justify;
+  text-transform: uppercase;
+ 
+}
+.partner_card img{
+    width: 250px;;
+    height: 100px;
+    object-fit: contain;
+}
+#map{
+    background-image: url("..\\img\\kakoDoNas.jpg");
+    background-repeat: no-repeat;
+    padding:50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-attachment: fixed;
+    background-size: cover;
+}
