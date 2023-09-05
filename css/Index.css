@@ -1,9 +1,4 @@
-#videoMain {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
 
-}
 #text_animation{
     display: inline-block;
     position:absolute;
