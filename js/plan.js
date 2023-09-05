@@ -89,10 +89,10 @@ function dodajRedak(subject) {
 }
 
 function showSum(ukupniECTS, ukupniSati, ukupniPredavanja, ukupniVjezbe) {
-  $("#ects").text(ukupniECTS);
-  $("#sati").text(ukupniSati);
-  $("#predavanja").text(ukupniPredavanja);
-  $("#vjezbe").text(ukupniVjezbe);
+  $("#ectsUkupno").text(ukupniECTS);
+  $("#satiUkupno").text(ukupniSati);
+  $("#predavanjaUkupno").text(ukupniPredavanja);
+  $("#vjezbeUkupno").text(ukupniVjezbe);
 }
 
 // function sumEctsAndHours() {
@@ -119,7 +119,7 @@ function sumEctsAndHours() {
 
   $("#kolegijiTable tbody tr").each(function () {
     const ectsText = $(this).find("td:eq(1)").text().trim();
-    console.log("ECTS Text:", ectsText); // Add this line for debugging
+    console.log("ECTS Text:", typeof(ectsText)); // Add this line for debugging
     const satiText = $(this).find("td:eq(2)").text().trim();
     const predavanjaText = $(this).find("td:eq(3)").text().trim();
     const vjezbeText = $(this).find("td:eq(4)").text().trim();
