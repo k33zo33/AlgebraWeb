@@ -4,7 +4,8 @@ if (token === null) {
   window.location.href = "../html/login.html";
 }
 
-let kolegijiLista = []
+let kolegijiLista = [];
+let allSubjects = [];
 
 // Dohvacamo podatke prije loadanja komponenti
 $(document).ready(() => {
@@ -19,7 +20,7 @@ $(document).ready(() => {
   // Parsiranje kolegija u listu
   xmlhttpGetAllSubjects.onreadystatechange = function () {
     if (this.readyState == 4 && this.status == 200) {
-      let allSubjects = JSON.parse(this.responseText);
+      allSubjects = JSON.parse(this.responseText);
       kolegijiLista = createArrayFromResponse(allSubjects.data);
 
       $("#kolegiji").autocomplete({
@@ -39,8 +40,10 @@ $(document).ready(() => {
   };
 })
 
-$("#search_bar").on("autocompleteselect", function (e, ui) {
-  let id = findID(allSubjects.data, ui.value);
+$("#kolegiji").on("autocompleteselect", function (e, ui) {
+  //console.log("ui.value: ", ui );
+  //console.log("e.target: ", e.target);
+  let id = findID(allSubjects.data, ui.item.value);
   let urlGetCurriculum = `https://www.fulek.com/data/api/supit/get-curriculum/${id}`;
   let xmlhttpGetSubject = new XMLHttpRequest();
   xmlhttpGetSubject.onreadystatechange = function () {
@@ -73,7 +76,7 @@ function findID(arr, nameOfKolegij) {
 }
 
 function dodajRedak(subject) {
-  $("#table").append(
+  $("#kolegijiTable").append(
     `<tr>
       <td scope="row">${subject.data.kolegij}</td>
       <td>${subject.data.ects}</td>
@@ -92,18 +95,51 @@ function showSum(ukupniECTS, ukupniSati, ukupniPredavanja, ukupniVjezbe) {
   $("#vjezbe").text(ukupniVjezbe);
 }
 
+// function sumEctsAndHours() {
+//   let ukupniECTS = 0;
+//   let ukupniSati = 0;
+//   let ukupniPredavanja = 0;
+//   let ukupniVjezbe = 0;
+
+//   $("#kolegijiTable tr").each(function () {
+//     ukupniECTS += parseFloat($(this).find("td:eq(1)").text());
+//     ukupniSati += parseFloat($(this).find("td:eq(2)").text());
+//     ukupniPredavanja += parseFloat($(this).find("td:eq(3)").text());
+//     ukupniVjezbe += parseFloat($(this).find("td:eq(4)").text());
+//   });
+
+//   showSum(ukupniECTS, ukupniSati, ukupniPredavanja, ukupniVjezbe);
+// }
+
 function sumEctsAndHours() {
   let ukupniECTS = 0;
   let ukupniSati = 0;
   let ukupniPredavanja = 0;
   let ukupniVjezbe = 0;
 
-  $("#table tr").each(function () {
-    ukupniECTS += parseFloat($(this).find("td:eq(1)").text());
-    ukupniSati += parseFloat($(this).find("td:eq(2)").text());
-    ukupniPredavanja += parseFloat($(this).find("td:eq(3)").text());
-    ukupniVjezbe += parseFloat($(this).find("td:eq(4)").text());
+  $("#kolegijiTable tbody tr").each(function () {
+    const ectsText = $(this).find("td:eq(1)").text().trim();
+    console.log("ECTS Text:", ectsText); // Add this line for debugging
+    const satiText = $(this).find("td:eq(2)").text().trim();
+    const predavanjaText = $(this).find("td:eq(3)").text().trim();
+    const vjezbeText = $(this).find("td:eq(4)").text().trim();
+
+    const ects = parseFloat(ectsText);
+    console.log("ECTS Value:", ects); // Add this line for debugging
+    const sati = parseFloat(satiText);
+    const predavanja = parseFloat(predavanjaText);
+    const vjezbe = parseFloat(vjezbeText);
+
+    if (!isNaN(ects)) ukupniECTS += ects;
+    if (!isNaN(sati)) ukupniSati += sati;
+    if (!isNaN(predavanja)) ukupniPredavanja += predavanja;
+    if (!isNaN(vjezbe)) ukupniVjezbe += vjezbe;
   });
 
   showSum(ukupniECTS, ukupniSati, ukupniPredavanja, ukupniVjezbe);
 }
+
+
+
+
+
